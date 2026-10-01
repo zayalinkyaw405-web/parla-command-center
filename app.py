@@ -19,17 +19,7 @@ import io
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent
 sys.path.insert(0, str(PROJECT_ROOT))
-
-# --- AUTO-DOWNLOAD SPACY MODEL FOR CLOUD DEPLOYMENT ---
 import spacy
-import subprocess
-try:
-    spacy.load("en_core_web_sm")
-except OSError:
-    print("🛠️ Cloud environment detected: Downloading spaCy language model...")
-    subprocess.check_call([sys.executable, "-m", "spacy", "download", "en_core_web_sm"])
-# ------------------------------------------------------
-
 from parla.domains.osint_nlp import OSINTEventExtractor, generate_osint_signature, DEFAULT_OSINT_SECRET
 from parla.domains.industrial import IndustrialProcessor
 from parla.domains.risk_mapper import RegionalRiskMapper
