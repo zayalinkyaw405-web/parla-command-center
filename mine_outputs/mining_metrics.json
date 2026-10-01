@@ -1,0 +1,61 @@
+{
+  "Discovered_Regimes": 4,
+  "Noise_Anomalies": 1093,
+  "Noise_Ratio": 36.43,
+  "PCA_Variance_Explained": [
+    0.319,
+    0.235
+  ],
+  "Profiles": {
+    "Cluster_-1": {
+      "Count": 1093,
+      "Percentage": 36.43,
+      "Type": "Chaos / Noise Anomaly",
+      "Mean_Vibration": 3.406,
+      "Mean_Temperature": 72.05,
+      "Mean_Current": 14.31,
+      "Mean_IMF_1": 1.17,
+      "Trip_Rate": 37.33
+    },
+    "Cluster_0": {
+      "Count": 1835,
+      "Percentage": 61.17,
+      "Type": "Operational Regime 0",
+      "Mean_Vibration": 2.331,
+      "Mean_Temperature": 66.02,
+      "Mean_Current": 12.48,
+      "Mean_IMF_1": 0.704,
+      "Trip_Rate": 0.0
+    },
+    "Cluster_1": {
+      "Count": 36,
+      "Percentage": 1.2,
+      "Type": "Operational Regime 1",
+      "Mean_Vibration": 4.003,
+      "Mean_Temperature": 65.34,
+      "Mean_Current": 11.99,
+      "Mean_IMF_1": 2.086,
+      "Trip_Rate": 55.56
+    },
+    "Cluster_2": {
+      "Count": 27,
+      "Percentage": 0.9,
+      "Type": "Operational Regime 2",
+      "Mean_Vibration": 2.211,
+      "Mean_Temperature": 86.52,
+      "Mean_Current": 18.51,
+      "Mean_IMF_1": 0.751,
+      "Trip_Rate": 70.37
+    },
+    "Cluster_3": {
+      "Count": 9,
+      "Percentage": 0.3,
+      "Type": "Operational Regime 3",
+      "Mean_Vibration": 2.302,
+      "Mean_Temperature": 89.5,
+      "Mean_Current": 19.81,
+      "Mean_IMF_1": 0.619,
+      "Trip_Rate": 33.33
+    }
+  }
+}
