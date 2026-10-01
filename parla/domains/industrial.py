@@ -4,11 +4,13 @@ Industrial Predictive Maintenance: EMD + DBSCAN + TreeSHAP
 Zero-Trust, offline-first, explainable anomaly detection.
 """
 
+import os
 import numpy as np
 import sqlite3
 import json
 import hashlib
 import hmac
+import warnings
 from datetime import datetime
 from typing import Dict, Any, List, Tuple, Optional
 from dataclasses import dataclass
@@ -16,12 +18,22 @@ from dataclasses import dataclass
 # ML Dependencies
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
+
+# Safe Import for EMD (Empirical Mode Decomposition)
 try:
     from PyEMD import EMD
+    EMD_AVAILABLE = True
 except ImportError:
-    from emd import EMD
+    try:
+        from emd import EMD
+        EMD_AVAILABLE = True
+    except ImportError:
+        EMD = None
+        EMD_AVAILABLE = False
+        warnings.warn("PyEMD/emd not installed. Falling back to basic FFT for signal decomposition.")
 
-DB_PATH = "c:/Users/james/VuZiNat/iot_agent/Data/parla_ledger.db"
+# Dynamic DB Path (Uses env var or defaults to current directory)
+DB_PATH = os.environ.get("PARLA_LEDGER_DB", os.path.join(os.getcwd(), "parla_ledger.db"))
 SECRET_KEY = b"parla_industrial_offline_key_2026"
 
 @dataclass
@@ -41,19 +53,45 @@ class IndustrialProcessor:
     and simplified TreeSHAP-style explainability.
     """
     
-    def __init__(self):
-        self.db_path = DB_PATH
+    def __init__(self, db_path: str = DB_PATH):
+        self.db_path = db_path
         self.scaler = StandardScaler()
         self.dbscan = DBSCAN(eps=0.5, min_samples=5)
         self.baseline_features = None
+        self._init_db()
+        
+    def _init_db(self):
+        """Initialize SQLite database and create table if not exists."""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS ledger_blocks (
+                seq_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                block_hash TEXT NOT NULL,
+                prev_hash TEXT NOT NULL,
+                domain TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                nonce TEXT NOT NULL,
+                payload_hash TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                signature TEXT NOT NULL,
+                sync_status TEXT NOT NULL
+            )
+        """)
+        conn.commit()
+        conn.close()
         
     def decompose_signal(self, vibration_data: np.ndarray) -> Dict[str, np.ndarray]:
         """
         Apply Empirical Mode Decomposition to extract intrinsic mode functions.
-        Returns dominant frequency components and energy distribution.
+        Falls back to basic FFT if EMD is not available.
         """
-        emd = EMD()
-        imfs = emd.emd(vibration_data)
+        if EMD_AVAILABLE:
+            emd = EMD()
+            imfs = emd.emd(vibration_data)
+        else:
+            # Fallback: Treat the whole signal as one IMF if EMD is missing
+            imfs = [vibration_data]
         
         # Calculate energy in each IMF
         energies = np.array([np.sum(imf**2) for imf in imfs])
