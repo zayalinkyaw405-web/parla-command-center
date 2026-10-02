@@ -92,6 +92,8 @@ modules_to_check = [
     ("Domain: OSINT NLP", "parla.domains.osint_nlp", "OSINTEventExtractor"),
     ("Domain: Risk Mapper", "parla.domains.risk_mapper", "RegionalRiskMapper"),
     ("Domain: Industrial", "parla.domains.industrial", "IndustrialProcessor"),
+    ("Domain: Real Data Gateway", "parla.domains.real_data_gateway", "RealDataGateway"),
+    ("Domain: OSINT Ingestor", "parla.domains.osint_ingestor", "OSINTIngestor"),
 ]
 
 for name, module_path, class_name in modules_to_check:

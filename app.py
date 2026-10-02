@@ -24,6 +24,9 @@ from parla.domains.osint_nlp import OSINTEventExtractor, generate_osint_signatur
 from parla.domains.industrial import IndustrialProcessor
 from parla.domains.risk_mapper import RegionalRiskMapper
 from parla.core.feedback_loop import FeedbackLoop
+from parla.domains.osint_ingestor import OSINTIngestor, IngestedEvent
+from parla.domains.real_data_gateway import RealDataGateway, NormalizedTelemetry
+from parla.domains.feedback_loop import FeedbackLoop as RLFeedbackLoop, FeedbackSignal
 
 # --- CONFIGURATION ---
 DB_PATH = PROJECT_ROOT / "Data" / "parla_ledger.db"
@@ -85,11 +88,12 @@ if not DB_PATH.exists():
     st.error("❌ Ledger database not found. Please run the stress test first to initialize the DB.")
     st.stop()
 
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "🌍 Live Humanitarian Ingest", 
     "🏭 Live Industrial Ingest", 
     "🗺️ Decrypted Risk Map", 
-    "🔗 Ledger & Feedback"
+    "🔗 Ledger & Feedback",
+    "⚡ Pipeline Gateway"
 ])
 
 # ==========================================
@@ -282,3 +286,93 @@ with tab4:
                     feedback_loop.record_feedback(f"OSINT-{seq_id}", evt_type, confidence, "REJECT", "Dashboard")
                     st.rerun()
             st.divider()
+
+# ==========================================
+# TAB 5: PIPELINE GATEWAY (E2E Verification)
+# ==========================================
+with tab5:
+    st.header("⚡ Real-World Ingestion Gateway & End-to-End Pipeline")
+    st.info("Execute end-to-end multi-track telemetry pipelines: signed IoT edge streams with RL parameter tuning (Track A) and REST API OSINT conflict feeds with PII scrubbing (Track B).")
+
+    gateway = RealDataGateway()
+    osint_ingest = OSINTIngestor(kb_dir=str(PROJECT_ROOT / "Project"))
+    rl_feedback = RLFeedbackLoop(kb_dir=str(PROJECT_ROOT / "Project"))
+
+    col_t1, col_t2 = st.columns(2)
+
+    with col_t1:
+        st.subheader("🏭 Track A: Edge Telemetry & RL Tuning")
+        st.caption("Injects HMAC-signed vibration telemetry and executes operator RL parameter adaptation.")
+        
+        mach_id = st.text_input("Target Machine ID:", value="PUMP-ALPHA-01", key="t5_mach")
+        vib_level = st.slider("Simulated Vibration Amplitude (g):", min_value=0.2, max_value=3.5, value=2.5, step=0.1, key="t5_vib")
+        
+        if st.button("🚀 Run Track A Pipeline", key="run_track_a"):
+            with st.spinner("Processing through Industrial Processor & Ledger..."):
+                t = np.linspace(0, 1, 1000)
+                vibration_data = np.random.normal(0, 0.4, 1000) + vib_level * np.sin(2 * np.pi * 50 * t)
+                temp = 72.0
+                
+                payload = {"machine_id": mach_id, "vibration_data": vibration_data.tolist(), "temperature": temp}
+                payload_json = json.dumps(payload, sort_keys=True)
+                signature = hmac.new(INDUSTRIAL_SECRET, payload_json.encode(), hashlib.sha256).hexdigest()
+                
+                result = ind_proc.process_telemetry(mach_id, vibration_data, temp, signature)
+                
+                if result['status'] == 'PROCESSED':
+                    st.success(f"✅ Telemetry Sealed to Ledger! Hash: `{result['ledger_hash'][:24]}...`")
+                    st.metric("Urgency", result['directive']['urgency'])
+                    st.metric("Failure Mode", result['directive']['failure_mode'])
+                    st.write(f"**Explanation:** {result['directive']['explanation']}")
+                    
+                    # RL Feedback adjustment
+                    fb_sig = FeedbackSignal(
+                        event_id=result['ledger_hash'][:16],
+                        original_prediction=result['directive']['failure_mode'],
+                        true_label="VERIFIED_ROTARY_DEFECT" if vib_level > 1.5 else "NOMINAL_LOAD",
+                        reward=1.0 if vib_level > 1.5 else -1.0,
+                        confidence=result['directive']['confidence']
+                    )
+                    rl_res = rl_feedback.process_feedback(fb_sig)
+                    st.info(f"🧠 RL Adaptation: {rl_res['adjustment_made']} (New DBSCAN eps: {rl_res['new_dbscan_eps']})")
+                else:
+                    st.error(f"❌ Processing Rejected: {result.get('reason')}")
+
+    with col_t2:
+        st.subheader("📰 Track B: REST Conflict Ingest & Scrub")
+        st.caption("Simulates external REST API conflict telemetry, normalizes schema, scrubs PII, and appends to KB.")
+        
+        sample_report = st.text_area(
+            "REST API Telemetry Feed:",
+            value="At 08:00, artillery shelling was reported near Hpakant. Reporter Aung Ko (aung.ko@news.mm, +95 9 123 456 789) reported civilian displacement near 25.4567, 96.1234. Aid blocked.",
+            height=120,
+            key="t5_report"
+        )
+        
+        if st.button("🛡️ Run Track B Pipeline", key="run_track_b"):
+            with st.spinner("Normalizing & Scrubbing PII..."):
+                norm_evt = NormalizedTelemetry(
+                    source_type="REST_API",
+                    event_id=f"rest_{int(time.time())}_ui",
+                    timestamp=time.time(),
+                    raw_payload={"source": "Myanmar Peace Monitor", "urls": ["https://example.com/live-report"]},
+                    normalized_data={"text": sample_report, "location": "Hpakant", "timestamp_raw": "08:00"}
+                )
+                
+                scrubbed = osint_ingest._redact_pii(norm_evt.normalized_data["text"])
+                category = osint_ingest._classify_event(scrubbed, norm_evt.raw_payload)
+                
+                final_evt = IngestedEvent(
+                    timestamp=datetime.now().strftime("%Y-%m-%d"),
+                    source="Myanmar Peace Monitor",
+                    category=category,
+                    summary=scrubbed,
+                    original_hash=hashlib.sha256(sample_report.encode()).hexdigest()[:16],
+                    source_links=["https://example.com/live-report"]
+                )
+                osint_ingest._append_to_kb(final_evt)
+                
+                st.success("✅ REST Feed Ingested & PII Scrubbed!")
+                st.metric("Event Classification", category)
+                st.text_area("PII Redacted Text:", value=scrubbed, height=80, disabled=True)
+                st.info("Appended to Knowledge Base: `Project/news-and-market-trends.md`")

@@ -3,20 +3,22 @@
 ## Trigger
 User requests to learn, map, or analyze Internet of Things (IoT) concepts, architectures, protocols, or provides IoT-related files/code.
 
-## Core Philosophy
-All IoT systems are governed by three primary forces:
-- **Yin (Receptive/State):** Passive, constrained, data-gathering, power-saving (e.g., sensors, data lakes, sleep modes). In Data Mining: the high-value signal excavated from raw data.
+## Core Philosophy (The Five Pillars)
+All IoT, sensing, intelligence, and edge systems are governed by five fundamental forces:
+- **Yin (Receptive/State):** Passive, constrained, data-gathering, power-saving (e.g., acoustic sensors, data lakes, sleep modes). In Data Mining: the high-value signal excavated from raw data.
 - **Yang (Active/Generative):** Active, compute-heavy, data-transmitting, power-consuming (e.g., cloud servers, actuators, gateways). In Data Mining: actionable business intelligence and operational execution.
-- **Chaos (Entropic/Medium):** The unpredictable environment, friction, and threats (e.g., packet loss, RF interference, cyber attacks, hardware decay). In Data Mining: high-entropy, unstructured, or massive datasets.
-- **Harmony (The Bridge):** Protocols or architectures specifically designed to balance Yin/Yang while surviving Chaos (e.g., MQTT with QoS, TLS). In Data Mining: robust, scalable extraction and pattern excavation algorithms.
+- **Chaos (Entropic/Medium):** The unpredictable environment, friction, and kinetic disruption (e.g., packet loss, RF interference, cyber attacks, airstrikes, hardware decay). In Data Mining: high-entropy, unstructured, or noisy datasets.
+- **Void (The Null Space / Absence / Epistemic Zero):** The silence between transmissions, intentional signal denial, communication blackouts, anti-forensic zeroization, the anomaly of missing signals ("the dog that didn't bark"), and delay-tolerant mesh store-and-forward buffers.
+- **Harmony (The Synthesis & Ledger):** Protocols and cryptographic architectures specifically designed to balance Yin/Yang/Void while surviving Chaos (e.g., Merkle-sealed immutable ledgers, MQTT with QoS, zero-trust PII sanitization). In Data Mining: robust, scalable pattern excavation algorithms.
 
 ## Data Mining & Pattern Excavation Core
 
 ### Capabilities Activated
 1. **Unstructured Text & Log Mining:** Parsing raw server logs, JSON dumps, or text corpora using Regex, NLP (spaCy/NLTK), and named entity recognition (NER) to extract structured features.
 2. **Association Rule Learning:** Identifying hidden co-occurrence patterns (e.g., Apriori, FP-Growth) in transactional or event-sequence data.
-3. **Advanced Unsupervised Discovery:** Using density-based clustering (DBSCAN, HDBSCAN) to find natural groupings and anomalies without predefined labels, specifically handling noise better than K-Means.
-4. **Ethical Web Scraping & Extraction:** Using tools like BeautifulSoup, Scrapy, or Playwright to gather external data, strictly adhering to `robots.txt`, rate limiting, and dynamic content handling.
+3. **Advanced Unsupervised Discovery:** Using density-based clustering (DBSCAN, HDBSCAN) to find natural groupings and gross anomalies without predefined labels.
+4. **Non-Linear Time-Series Anomaly Isolation:** Deploying sub-tree ensemble Isolation Forest ($O(t \cdot \psi \log \psi)$) to detect subtle, multi-modal, and non-linear phase/harmonic degradation in vibration and acoustic telemetry that escape spherical Euclidean distance thresholds.
+5. **Ethical Web Scraping & Extraction:** Using tools like BeautifulSoup, Scrapy, or Playwright to gather external data, strictly adhering to `robots.txt`, rate limiting, and dynamic content handling.
 
 ### Red Team Self-Correction Upgrades
 - **PII Redaction:** Automatically detect and mask Personally Identifiable Information (emails, IPs, names, MAC addresses) during the extraction phase to ensure GDPR/CCPA compliance.
@@ -71,6 +73,7 @@ Layers: PER (Perception), NET (Network), EDG (Edge), CLD (Cloud), SEC (Security)
 ### Exemplary Pattern Mining Nodes
 - **`HAR-MIN-05`**: Density-Based Operating Regime & Anomaly Excavator (DBSCAN / HDBSCAN)
 - **`HAR-PAT-06`**: Sequential Physical Telemetry Association Rule Miner (Apriori / FP-Growth)
+- **`HAR-ANO-07`**: Multi-Dimensional Time-Series Isolation Forest (Orthogonal Cut Non-Linear Anomaly Detector)
 
 ## Rules
 1. **Zero fluff.** Do not explain what you are about to do. Start directly with the output.

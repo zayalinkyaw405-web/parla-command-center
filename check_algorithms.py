@@ -5,6 +5,10 @@ Full diagnostic of all Parla data mining algorithms.
 
 import sys
 import os
+import importlib
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 print("=" * 70)
 print("🔍 PARLA DATA MINING ALGORITHM DIAGNOSTIC")
@@ -98,12 +102,19 @@ except Exception as e:
 # 6. Signal: EMD Decomposition
 print("\n[6] EMD Signal Decomposition")
 try:
+    EMD = None
+    emd_lib = None
     try:
-        from PyEMD import EMD
+        from PyEMD import EMD as _EMD
+        EMD = _EMD
         emd_lib = "PyEMD"
     except ImportError:
-        from emd import EMD
-        emd_lib = "emd"
+        try:
+            _emd_module = importlib.import_module("emd")
+            EMD = getattr(_emd_module, "EMD", None)
+            emd_lib = "emd"
+        except ImportError:
+            raise ImportError("Neither 'PyEMD' nor 'emd' package is installed.")
     import numpy as np
     t = np.linspace(0, 1, 500)
     signal = np.sin(2 * np.pi * 5 * t) + np.sin(2 * np.pi * 20 * t)

@@ -1,7 +1,8 @@
 """
 OSINT Text Mining & Event Extraction Module
 Domain: Parla Autonomous Operations Research Node
-Architecture: Offline-First NLP, Zero-Trust Cryptographic Ledger, Hard PII Redaction
+Architecture: Offline-First NLP, Zero-Trust Cryptographic Ledger, Hard PII Redaction,
+              Admiralty 6x6 Multi-INT Fusion, Tactical Fleet & Ordnance Knowledge Linking
 """
 
 import sys
@@ -17,7 +18,6 @@ import hashlib
 import json
 import time
 from typing import Any, Dict, List, Optional, Tuple
-from pathlib import Path
 
 import spacy
 from spacy.language import Language
@@ -25,6 +25,12 @@ from spacy.language import Language
 from parla.core.ledger import OfflineLedger
 from parla.core.security import compute_sha256, canonical_json
 from parla.core.feedback_loop import FeedbackLoop
+from parla.domains.admiralty_evaluator import (
+    AdmiraltyEvaluator,
+    SourceReliability,
+    InformationCredibility,
+    AdmiraltyAssessment
+)
 
 # Default Zero-Trust Secret Key for Local Node Payload Signing
 DEFAULT_OSINT_SECRET = b"parla-zero-trust-offline-root-key"
@@ -76,38 +82,110 @@ EVENT_TAXONOMY = {
     ]
 }
 
+# Tactical Knowledge Matrices Linked to Project Skills
+TACTICAL_AIRCRAFT_MATRIX: Dict[str, Dict[str, Any]] = {
+    "SU_30SME": {
+        "keywords": ["su-30", "su30", "flanker"],
+        "origin_bases": ["Naypyidaw (Ela)", "Tada-U (Mandalay)"],
+        "acoustic_signature": "Twin turbofan AL-31FP roar (40-120 Hz), supersonic boom, 120-140 dB",
+        "primary_ordnance": ["ODAB-500PM thermobaric", "FAB-500", "KAB-500Kr"],
+        "threat_level": "EXTREME_STRATEGIC"
+    },
+    "YAK_130": {
+        "keywords": ["yak-130", "yak130", "mitten"],
+        "origin_bases": ["Tada-U", "Taungoo", "Meiktila"],
+        "acoustic_signature": "Twin turbofan AI-222-25 whine (1.2-8.0 kHz), 110-125 dB",
+        "primary_ordnance": ["FAB-250", "OFAB-100-120", "B-8M1 S-8 rockets", "23mm gun pod"],
+        "threat_level": "HIGH_TACTICAL_CAS"
+    },
+    "MIG_29": {
+        "keywords": ["mig-29", "mig29", "fulcrum"],
+        "origin_bases": ["Tada-U", "Magway", "Yangon-Mingaladon"],
+        "acoustic_signature": "RD-33 twin turbofan smoke roar (80-220 Hz), 115-135 dB",
+        "primary_ordnance": ["FAB-500", "FAB-250", "S-8 rockets", "30mm GSh-30-1"],
+        "threat_level": "HIGH_FAST_JET"
+    },
+    "K_8_KARAKORUM": {
+        "keywords": ["k-8", "k8", "karakorum"],
+        "origin_bases": ["Taungoo", "Meiktila", "Hmawbi"],
+        "acoustic_signature": "Garrett TFE731 turbofan (high-pitch whistle 2.5-6.0 kHz), 100-115 dB",
+        "primary_ordnance": ["57mm unguided rockets", "Type 23-1 gun pod", "250kg bombs"],
+        "threat_level": "MEDIUM_LIGHT_ATTACK"
+    },
+    "MI_35P_HIND": {
+        "keywords": ["mi-35", "mi35", "hind", "gunship helicopter"],
+        "origin_bases": ["Meiktila", "Magway", "Myitkyina"],
+        "acoustic_signature": "Rotor blade slap (18.5-23.0 Hz fundamental), twin Isotov TV3-117 whine, 115-130 dB",
+        "primary_ordnance": ["GSh-30-2K twin 30mm cannon", "9M114/9M120 ATGM", "S-8 rockets"],
+        "threat_level": "HIGH_GUNSHIP"
+    },
+    "FTC_2000G": {
+        "keywords": ["ftc-2000g", "ftc2000g", "mountain eagle"],
+        "origin_bases": ["Namhsan", "Tada-U"],
+        "acoustic_signature": "WP-13 turbojet (piercing high-frequency shrieking), 120-135 dB",
+        "primary_ordnance": ["250kg unguided bombs", "rocket pods", "PL-9/PL-8"],
+        "threat_level": "MEDIUM_LIGHT_FIGHTER"
+    }
+}
+
+TACTICAL_ORDNANCE_MATRIX: Dict[str, Dict[str, Any]] = {
+    "THERMOBARIC_ODAB": {
+        "keywords": ["thermobaric", "fuel-air explosive", "fae", "odab", "vacuum bomb"],
+        "lethal_radius_m": 150,
+        "hazard_type": "Overpressure blast wave and vacuum lung collapse",
+        "humanitarian_flag": "MASS_CASUALTY_CIVILIAN_HAZARD"
+    },
+    "FAB_500_DEMOLITION": {
+        "keywords": ["fab-500", "fab500", "500kg bomb", "500 kg bomb", "heavy bomb"],
+        "lethal_radius_m": 120,
+        "hazard_type": "Deep structural cratering and extreme fragmentation",
+        "humanitarian_flag": "STRUCTURE_DEMOLITION"
+    },
+    "CLUSTER_MUNITIONS": {
+        "keywords": ["cluster bomb", "cluster munition", "submunition", "bomblet", "unexploded bomblets"],
+        "lethal_radius_m": 300,
+        "hazard_type": "Wide-area bomblet saturation with delayed detonation risk",
+        "humanitarian_flag": "UNEXPLODED_ORDNANCE_UXO"
+    },
+    "HEAVY_ARTILLERY_122MM": {
+        "keywords": ["122mm", "howitzer", "d-30", "d30", "artillery battery"],
+        "lethal_radius_m": 50,
+        "hazard_type": "Kinetic fragmentation and indirect area shelling",
+        "humanitarian_flag": "CIVILIAN_SHELLING"
+    }
+}
+
 
 class OSINTEventExtractor:
     """
     Offline OSINT Text Mining and Structured Event Extraction Engine.
     Executes deep PII sanitization via spaCy NER and Regex, evaluates events,
-    verifies cryptographic signatures, and seals records into the Merkle ledger.
+    verifies cryptographic signatures, grades through NATO Admiralty 6x6,
+    and seals records into the Merkle ledger.
     """
 
     def __init__(
         self,
         ledger: Optional[OfflineLedger] = None,
         secret_key: bytes = DEFAULT_OSINT_SECRET,
-        spacy_model: str = "en_core_web_sm"
+        spacy_model: str = "en_core_web_sm",
+        admiralty_evaluator: Optional[AdmiraltyEvaluator] = None
     ) -> None:
         self.ledger: OfflineLedger = ledger or OfflineLedger()
         self.secret_key: bytes = secret_key
         self.nlp: Language = self._load_spacy_engine(spacy_model)
-        self.feedback: FeedbackLoop = FeedbackLoop()  # Initialize feedback loop
+        self.feedback: FeedbackLoop = FeedbackLoop()
+        self.admiralty: AdmiraltyEvaluator = admiralty_evaluator or AdmiraltyEvaluator()
 
     def _load_spacy_engine(self, model_name: str) -> Language:
         """Loads offline spaCy model with optimized disabled pipes for high-throughput processing."""
         try:
             return spacy.load(model_name, disable=["parser"])
         except Exception:
-            # Fallback if specific disable flags fail
             return spacy.load(model_name)
 
     def _get_dynamic_threshold(self, event_type: str) -> float:
-        """
-        Get the dynamically adjusted confidence threshold for this event type.
-        Falls back to default 0.70 if no feedback data exists yet.
-        """
+        """Get the dynamically adjusted confidence threshold for this event type."""
         thresholds = self.feedback.get_current_thresholds()
         return thresholds.get(event_type, 0.70)
 
@@ -149,13 +227,11 @@ class OSINTEventExtractor:
         # --- Tier 2: spaCy Named Entity Recognition (NER) ---
         doc = nlp_engine(scrubbed)
         
-        # Collect tokens flagged as PERSON or sensitive FACILITY/GPE
         redaction_spans = []
         for ent in doc.ents:
             if ent.label_ in ("PERSON", "FAC"):
                 redaction_spans.append((ent.start_char, ent.end_char))
 
-        # Sort spans descending and replace cleanly to preserve character indexing
         redaction_spans.sort(key=lambda x: x[0], reverse=True)
         text_chars = list(scrubbed)
         for start, end in redaction_spans:
@@ -163,6 +239,43 @@ class OSINTEventExtractor:
 
         final_clean = "".join(text_chars)
         return final_clean
+
+    def _extract_tactical_entities(self, text_lower: str) -> Dict[str, Any]:
+        """Extracts and enriches aircraft and ordnance from domain knowledge skills."""
+        matched_aircraft = []
+        for ac_id, data in TACTICAL_AIRCRAFT_MATRIX.items():
+            if any(kw in text_lower for kw in data["keywords"]):
+                matched_aircraft.append({
+                    "aircraft_type": ac_id,
+                    "origin_bases": data["origin_bases"],
+                    "acoustic_signature": data["acoustic_signature"],
+                    "primary_ordnance": data["primary_ordnance"],
+                    "threat_level": data["threat_level"]
+                })
+
+        matched_ordnance = []
+        for ord_id, data in TACTICAL_ORDNANCE_MATRIX.items():
+            if any(kw in text_lower for kw in data["keywords"]):
+                matched_ordnance.append({
+                    "ordnance_type": ord_id,
+                    "lethal_radius_m": data["lethal_radius_m"],
+                    "hazard_type": data["hazard_type"],
+                    "humanitarian_flag": data["humanitarian_flag"]
+                })
+
+        return {
+            "aircraft": matched_aircraft,
+            "ordnance": matched_ordnance
+        }
+
+    def _detect_contradictions(self, text_lower: str) -> List[str]:
+        """Flags contradictory assertions within the source text."""
+        contradictions = []
+        has_destructive_claim = any(kw in text_lower for kw in ["airstrike", "bombing", "destroyed", "massacre", "heavy casualties"])
+        has_peaceful_claim = any(kw in text_lower for kw in ["no damage", "no casualties", "routine patrol without incident", "completely peaceful"])
+        if has_destructive_claim and has_peaceful_claim:
+            contradictions.append("MUTUALLY_EXCLUSIVE_IMPACT_CLAIMS")
+        return contradictions
 
     def _detect_event_type(self, text_lower: str) -> Tuple[str, float]:
         """Classifies primary event type and computes confidence score."""
@@ -176,7 +289,6 @@ class OSINTEventExtractor:
             return "GENERAL_CONFLICT_REPORT", 0.40
 
         top_event = max(scores.items(), key=lambda x: x[1])
-        # Confidence calculation: bounded between 0.50 and 0.98 based on match saturation
         confidence = min(0.50 + (top_event[1] * 0.12), 0.98)
         return top_event[0], round(confidence, 2)
 
@@ -190,20 +302,16 @@ class OSINTEventExtractor:
 
     def _extract_timeframe(self, text: str, doc: Any) -> str:
         """Extracts timeframe via spaCy DATE entities or fallback ISO regex."""
-        # 1. Search spaCy DATE entities
         for ent in doc.ents:
             if ent.label_ == "DATE":
-                # Normalize clean date text
                 clean_ent = ent.text.strip()
                 if len(clean_ent) >= 4 and not clean_ent.isdigit() or len(clean_ent) == 4:
                     return clean_ent
 
-        # 2. Regex fallback for standard ISO dates (YYYY-MM-DD or YYYY-MM)
         date_match = re.search(r'\b(202[1-6](?:-\d{2}(?:-\d{2})?)?)\b', text)
         if date_match:
             return date_match.group(1)
 
-        # 3. Default observation timestamp if unstated
         return time.strftime("%Y-%m", time.gmtime())
 
     def process_osint_payload(
@@ -211,16 +319,20 @@ class OSINTEventExtractor:
         raw_text: str,
         signature: str,
         timestamp: str = "",
-        source_id: str = "OSINT_SOURCE_ANON"
+        source_id: str = "OSINT_SOURCE_ANON",
+        source_reliability: str = "C",
+        base_credibility: int = 3,
+        corroborating_evidence: Optional[List[Dict[str, Any]]] = None
     ) -> Dict[str, Any]:
         """
-        Full Zero-Trust OSINT Ingestion Pipeline:
+        Full Zero-Trust OSINT Ingestion & Admiralty Multi-INT Triangulation Pipeline:
         1. Verify cryptographic HMAC signature. If invalid, drops and quarantines.
         2. Computes source text SHA-256 hash.
         3. Executes hard PII redaction using regex + spaCy NER.
-        4. Extracts structured schema (event_type, region_hash, timeframe, confidence, source_text_hash).
-        5. Applies dynamic confidence threshold from feedback loop.
-        6. Seals sanitized event atomically into the Merkle offline ledger.
+        4. Extracts tactical entities (Aircraft, Ordnance) linking to domain skills.
+        5. Evaluates NATO 6x6 Admiralty score with multi-INT elevation (FIRMS, ADS-B, etc.).
+        6. Applies dynamic feedback thresholds.
+        7. Seals sanitized event atomically into the Merkle offline ledger.
         """
         # Step 1: Zero-Trust Signature Verification
         if not self.verify_payload_signature(raw_text, signature, timestamp=timestamp):
@@ -244,35 +356,58 @@ class OSINTEventExtractor:
         # Step 3: Hard PII Redaction
         redacted_text: str = self.redact_pii(raw_text, self.nlp)
 
-        # Step 4: NLP Event & Region Extraction over sanitized text
+        # Step 4: NLP Event, Tactical Entity, and Region Extraction
         doc = self.nlp(redacted_text)
         text_lower = redacted_text.lower()
 
-        event_type, confidence = self._detect_event_type(text_lower)
+        event_type, raw_confidence = self._detect_event_type(text_lower)
         broad_region = self._detect_broad_region(text_lower)
         region_hash: str = compute_sha256(broad_region)
         timeframe: str = self._extract_timeframe(redacted_text, doc)
+        tactical_intel = self._extract_tactical_entities(text_lower)
+        contradictions = self._detect_contradictions(text_lower)
 
-        # Step 5: Apply Dynamic Confidence Threshold
+        # Step 5: Admiralty 6x6 Multi-INT Evaluation
+        assessment = self.admiralty.evaluate(
+            reliability=SourceReliability(source_reliability),
+            credibility=InformationCredibility(base_credibility),
+            corroborating_evidence=corroborating_evidence,
+            contradiction_evidence=contradictions
+        )
+
+        # Step 6: Apply Dynamic Confidence Threshold & Tactical Action
         dynamic_threshold = self._get_dynamic_threshold(event_type)
-        action = "ALERT" if confidence >= dynamic_threshold else "MONITOR"
+        is_actionable = assessment.actionable_for_civilian_protection or (assessment.elevated_confidence >= dynamic_threshold)
+        action = "ALERT" if is_actionable else "MONITOR"
+
+        # If tactical aircraft or mass-casualty ordnance detected, escalate action description
+        tactical_threats = [a["threat_level"] for a in tactical_intel.get("aircraft", [])]
+        if "EXTREME_STRATEGIC" in tactical_threats or any(o.get("humanitarian_flag") == "MASS_CASUALTY_CIVILIAN_HAZARD" for o in tactical_intel.get("ordnance", [])):
+            action = "URGENT_CIVILIAN_SHELTER_ALERT"
 
         structured_event: Dict[str, Any] = {
             "event_type": event_type,
             "region_hash": region_hash,
+            "broad_region": broad_region,
             "timeframe": timeframe,
-            "confidence": confidence,
+            "confidence": assessment.elevated_confidence,
+            "base_confidence": raw_confidence,
+            "admiralty_grade": assessment.elevated_grade,
+            "admiralty_initial": assessment.initial_grade,
             "source_text_hash": source_text_hash,
             "dynamic_threshold": dynamic_threshold,
-            "action": action
+            "action": action,
+            "tactical_intel": tactical_intel,
+            "contradictions": contradictions,
+            "corroborations": [c.get("modality") for c in (corroborating_evidence or [])]
         }
 
-        # Step 6: Seal into Merkle Offline Ledger
+        # Step 7: Seal into Merkle Offline Ledger
         ledger_payload: Dict[str, Any] = {
             "source_id": source_id,
             "timestamp": timestamp or time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "structured_event": structured_event,
-            "redacted_text_snippet": redacted_text[:180]
+            "redacted_text_snippet": redacted_text[:200]
         }
 
         success, err, block = self.ledger.record_event(
@@ -289,7 +424,7 @@ class OSINTEventExtractor:
             "ledger_hash": ledger_hash,
             "seq_id": block["seq_id"] if block else -1,
             "event": structured_event,
-            "alert_id": f"OSINT-{block['seq_id']:06d}" if block else None  # For feedback reference
+            "alert_id": f"OSINT-{block['seq_id']:06d}" if block else None
         }
 
 

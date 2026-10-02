@@ -29,8 +29,11 @@ DB_PATH = Path(__file__).parent / "Data" / "parla_ledger.db"
 OSINT_SECRET_KEY = b"parla-zero-trust-offline-root-key"
 INDUSTRIAL_SECRET_KEY = b"parla_industrial_offline_key_2026"
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 print("=" * 80)
-print("🔥 PARLA FULL SYSTEM STRESS TEST")
+print("[PARLA] FULL SYSTEM STRESS TEST")
 print("=" * 80)
 print(f"Start Time: {datetime.now().isoformat()}")
 print(f"Database: {DB_PATH}")

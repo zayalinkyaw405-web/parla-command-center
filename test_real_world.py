@@ -1,4 +1,7 @@
-import sys; sys.path.insert(0, '.')
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+sys.path.insert(0, '.')
 from parla.domains.osint_nlp import OSINTEventExtractor, generate_osint_signature
 
 extractor = OSINTEventExtractor()
