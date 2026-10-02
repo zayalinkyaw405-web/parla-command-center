@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentic Chronological Intelligence Report (2022–2026)</title>
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.2);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .header h1 { font-size: 26px; color: #ffffff; margin-bottom: 8px; font-weight: 700; }
+    .header p { color: var(--text-muted); font-size: 14px; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .stat-val { font-size: 28px; font-weight: 700; color: #60a5fa; }
+    .stat-label { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .search-bar {
+      width: 100%;
+      padding: 12px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    .table-container {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      padding: 14px 16px;
+      background: #1f2937;
+      color: #93c5fd;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:hover { background-color: rgba(255, 255, 255, 0.02); }
+    .date-cell { white-space: nowrap; width: 140px; }
+    .date-val { font-weight: 700; color: #fff; }
+    .time-val { font-size: 12px; color: var(--text-muted); }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .badge-blue { background-color: #3b82f6; }
+    .badge-emerald { background-color: #10b981; }
+    .badge-violet { background-color: #8b5cf6; }
+    .badge-amber { background-color: #f59e0b; }
+    .badge-red { background-color: #ef4444; }
+    .source-link { color: #60a5fa; text-decoration: none; }
+    .source-link:hover { text-decoration: underline; }
+    .source-text { color: #94a3b8; }
+    .grade-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      background: #374151;
+      color: #a7f3d0;
+      border: 1px solid #4b5563;
+      white-space: nowrap;
+    }
+    .event-title { font-weight: 600; color: #fff; font-size: 15px; margin-bottom: 4px; }
+    .event-summary { color: #d1d5db; font-size: 13px; margin-bottom: 6px; }
+    .event-sources { font-size: 12px; color: var(--text-muted); }
+    .hash-cell { font-family: monospace; font-size: 12px; color: #94a3b8; max-width: 160px; word-break: break-all; }
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>🛡️ Myanmar Multi-INT Authentic Chronological Intelligence Dossier</h1>
+    <p>Unified Operational Chronology (2022–2026) | Verified Field Events, Tactical Weather, Void Indicators & Merkle Ledger Seals</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-val">46</div>
+      <div class="stat-label">Verified Observations</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">2022–2026</div>
+      <div class="stat-label">Temporal Window</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">100%</div>
+      <div class="stat-label">Admiralty & Merkle Audited</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">4 Domains</div>
+      <div class="stat-label">OSINT, VOID, Weather, Ledger</div>
+    </div>
+  </div>
+
+  <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search by date, township, airbase, or keywords...">
+
+  <div class="table-container">
+    <table id="eventsTable">
+      <thead>
+        <tr>
+          <th>Date & Time</th>
+          <th>Domain</th>
+          <th>Chronological Event Details</th>
+          <th>Grade</th>
+          <th>Evidentiary Hash / Anchor</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.560</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #937 [feedback]</div>
+                <div class="event-summary">DISPLACEMENT - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #937)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>40e79df9a90bb4a75a1f8dda3c9db8b9...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.547</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #936 [feedback]</div>
+                <div class="event-summary">UAV_DRONE - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #936)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>48781908906612cf64f667a1ee2ff50c...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.534</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #935 [feedback]</div>
+                <div class="event-summary">DISPLACEMENT - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #935)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>67e77f41dc0a7841842e3a8a30e5e205...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.523</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #934 [feedback]</div>
+                <div class="event-summary">DISPLACEMENT - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #934)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>b78b2245e5283fb8b87c4890a610d705...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.508</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #933 [feedback]</div>
+                <div class="event-summary">GROUND_CONFLICT - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #933)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>bad065f86eecc70362f682ce512cb6c1...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.494</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #932 [feedback]</div>
+                <div class="event-summary">GROUND_CONFLICT - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #932)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>91468cbdc655cb3d470bd1a68c1ce9f9...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.481</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #931 [feedback]</div>
+                <div class="event-summary">AIRSTRIKE - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #931)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>44d2d32d74b34f848e3eefb5659ec7e4...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.469</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #930 [feedback]</div>
+                <div class="event-summary">GROUND_CONFLICT - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #930)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>0f980ea8b4f7fd85557e783a3050d899...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="FEEDBACK">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">09:04:27.456</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #929 [feedback]</div>
+                <div class="event-summary">GROUND_CONFLICT - Target: N/A</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #929)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>1c3d79d543d21108bd131b46ab1a581d...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="INDUSTRIAL">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">04:45:28 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #948 [industrial]</div>
+                <div class="event-summary">Domain: industrial | Block Seq #948</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #948)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>187d541e1103cad89e490cd5ccad8cbf...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="INDUSTRIAL">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">03:13:50 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #947 [industrial]</div>
+                <div class="event-summary">Domain: industrial | Block Seq #947</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #947)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>03b4a53bf6368eded0385a905e2284ac...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="INDUSTRIAL">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">03:13:50 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #946 [industrial]</div>
+                <div class="event-summary">Domain: industrial | Block Seq #946</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #946)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>479ea7a214216e475350162cefb9006e...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="INDUSTRIAL">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">03:12:54 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #945 [industrial]</div>
+                <div class="event-summary">Domain: industrial | Block Seq #945</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #945)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>b6f31d7352eb3181bf6b9b6f60479813...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="INDUSTRIAL">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">03:12:54 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #944 [industrial]</div>
+                <div class="event-summary">Domain: industrial | Block Seq #944</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #944)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>2db8030c888a0e10f4ebf9aa82e93efe...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="OSINT_NLP">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">03:03:15 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #943 [osint_nlp]</div>
+                <div class="event-summary">Domain: osint_nlp | Block Seq #943</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #943)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>0fc390ede896a126a15bf21f651fa68e...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="OSINT_NLP">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">02:22:40 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #942 [osint_nlp]</div>
+                <div class="event-summary">Domain: osint_nlp | Block Seq #942</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #942)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>a7856a1053a9f4a892caab42e2558f30...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="OSINT_NLP">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">02:22:29 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #941 [osint_nlp]</div>
+                <div class="event-summary">Domain: osint_nlp | Block Seq #941</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #941)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>4f898c4188248386c1dd129c28f9f122...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="OSINT_NLP">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">02:14:39 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #940 [osint_nlp]</div>
+                <div class="event-summary">Domain: osint_nlp | Block Seq #940</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #940)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>933624ffc30f999135176a2bb362a283...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="OSINT_NLP">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">02:14:33 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #939 [osint_nlp]</div>
+                <div class="event-summary">Domain: osint_nlp | Block Seq #939</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #939)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>812b7c1f9ffdb618450a1ff129c0b125...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="MERKLE_LEDGER" data-category="OSINT_NLP">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">02:05:34 UTC</div>
+              </td>
+              <td><span class="badge badge-emerald">MERKLE_LEDGER</span></td>
+              <td>
+                <div class="event-title">Chained Block #938 [osint_nlp]</div>
+                <div class="event-summary">Domain: osint_nlp | Block Seq #938</div>
+                <div class="event-sources">Sources: <span class='source-text'>Local SQLite WAL Ledger (Seq #938)</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographically Sealed)</span></td>
+              <td class="hash-cell"><code>c7c2f15296bc5a8ff624a15fecb70d76...</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="STRATEGIC_TERRITORY">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-blue">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Q4 2026 Myanmar EAO Territorial Dynamics & Governance</div>
+                <div class="event-summary">The Myanmar military junta's administrative reach has contracted to approximately 42% of national territory as ethnic armed organizations consolidate definitive control over strategic frontiers, led by the Arakan Army's 92.6% dominance of Rakhine State. In response, the regime has intensified aerial bombardments across the contested central dry zone while northern trade corridors experience realignment under Chinese mediation.</div>
+                <div class="event-sources">Sources: <a href='https://acleddata.com,' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a> <a href='https://ispmyanmar.com,' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Myanmar Peace Monitor Intelligence Update</div>
+                <div class="event-summary">At 08:00, artillery shelling was reported near Hpakant. Local spotter [REDACTED_NAME] ([REDACTED], +95 9 123 456 789) reported civilian displacements near [REDACTED].</div>
+                <div class="event-sources">Sources: <a href='https://example.com/hpakant-report' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Myanmar Peace Monitor Intelligence Update</div>
+                <div class="event-summary">At 08:00, artillery shelling was reported near Hpakant. Local spotter [REDACTED_NAME] ([REDACTED], [REDACTED]) reported civilian displacements near [REDACTED].</div>
+                <div class="event-sources">Sources: <a href='https://example.com/hpakant-report' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2026-10-02</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Myanmar Peace Monitor Intelligence Update</div>
+                <div class="event-summary">At 08:00, artillery shelling was reported near Hpakant. Local spotter [REDACTED_NAME] ([REDACTED], [REDACTED]) reported civilian displacements near [REDACTED].</div>
+                <div class="event-sources">Sources: <a href='https://example.com/hpakant-report' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="IOT_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-10-01</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-blue">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Integration of Autonomous IoT Agentic Workflows for Conflict Telemetry</div>
+                <div class="event-summary">Parla Operations Research node activates automated data fusion pipeline combining NASA FIRMS thermal anomaly detection, acoustic micro-Doppler signature processing, and ACLED API schema alignment. System introduces automated PII scrubbing to protect on-the-ground informants and edge sensor stewards from junta electronic surveillance.</div>
+                <div class="event-sources">Sources: <a href='https://acleddata.com/myanmar/](https://acleddata.com/myanmar/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a> <a href='https://firms.modaps.eosdis.nasa.gov/](https://firms.modaps.eosdis.nasa.gov/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2026-10-01</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Myanmar Peace Monitor Intelligence Update</div>
+                <div class="event-summary">At 08:00, artillery shelling was reported near the village of Hpakant. Local journalist [REDACTED_NAME] ([REDACTED], +95 9 123 456 789) reported civilian displacements near coordinates [REDACTED]. Humanitarian aid is blocked.</div>
+                <div class="event-sources">Sources: <a href='https://example.com/hpakant-report' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2026-09-28</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Mass-Casualty Aerial Strike on Kyauktaw Central Market (Rakhine State)</div>
+                <div class="event-summary">Myanmar military jet fighters executed an unannounced morning strike on a packed civilian marketplace in Kyauktaw, resulting in over 50 civilian deaths and widespread infrastructure devastation. UN OHCHR officials strongly condemned the strike, highlighting that the SAC's intensified air campaign continues to flagrantly violate International Humanitarian Law.</div>
+                <div class="event-sources">Sources: <a href='https://www.ohchr.org/en/press-briefing-notes](https://www.ohchr.org/en/press-briefing-notes' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a> <a href='https://english.dvb.no/](https://english.dvb.no/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">A1 (Corroborated)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="CIVILIAN_PROTECTION">
+              <td class="date-cell">
+                <div class="date-val">2026-08-31</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">NUG Monthly Atrocity Report — August Aerial Bombardment Peak</div>
+                <div class="event-summary">The National Unity Government Ministry of Human Rights recorded 530 separate aerial attacks in August 2026, leading to 139 confirmed civilian fatalities (including 18 children). The surge reflects the military's strategic reliance on multi-aircraft strike packages deployed across Sagaing, Mandalay, and Shan States.</div>
+                <div class="event-sources">Sources: <a href='https://mohr.nugmyanmar.org/](https://mohr.nugmyanmar.org/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="METEOROLOGICAL" data-category="WEATHER_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-08-05</div>
+                <div class="time-val">08:00:00 UTC</div>
+              </td>
+              <td><span class="badge badge-amber">METEOROLOGICAL</span></td>
+              <td>
+                <div class="event-title">Tactical Climate Reading: Loikaw Ridge Monitor (WS-KRN-04)</div>
+                <div class="event-summary">Precipitation: 2.4 mm/h | Wind: 6.8 m/s (Gusts: 11.2 m/s) | Cloud Ceiling: 450.0 m. Notes: Low cloud blanket shrouding Salween gorge passes. SAC jet CAS sorties restricted due to cloud ceiling.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Station WS-KRN-04</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Automated Sensor)</span></td>
+              <td class="hash-cell"><code>Pressure: 912.0 hPa</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="VOID PILLAR (The Null Space)" data-category="ZEROIZATION_TRIGGERED">
+              <td class="date-cell">
+                <div class="date-val">2026-08-04</div>
+                <div class="time-val">00:00:00 UTC</div>
+              </td>
+              <td><span class="badge badge-violet">VOID PILLAR (The Null Space)</span></td>
+              <td>
+                <div class="event-title">Void Signal Telemetry: Kayah (Karenni) State (Loikaw)</div>
+                <div class="event-summary">Listening post overrun by advancing infantry. Internal light sensor tripped at 02:14:10 UTC. Microcontroller SRAM zeroized, AES root keys shredded, hardware permanently bricked in 12.4ms.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Edge Node VOID-KRN-03</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographic Telemetry)</span></td>
+              <td class="hash-cell"><code>Coord: 19.6743, 97.2091</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="VOID PILLAR (The Null Space)" data-category="DTN_BUFFER_BURST">
+              <td class="date-cell">
+                <div class="date-val">2026-08-04</div>
+                <div class="time-val">00:00:00 UTC</div>
+              </td>
+              <td><span class="badge badge-violet">VOID PILLAR (The Null Space)</span></td>
+              <td>
+                <div class="event-title">Void Signal Telemetry: Northern Shan State (Namkham)</div>
+                <div class="event-summary">Motorcycle courier carrying encrypted flash relay arrived at border gateway. Successfully uploaded 152 buffered health clinic and casualty reports accumulated over 4 hours of total blackout.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Edge Node VOID-SHN-04</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographic Telemetry)</span></td>
+              <td class="hash-cell"><code>Coord: 23.831, 97.689</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="VOID PILLAR (The Null Space)" data-category="ANOMALY_OF_ABSENCE">
+              <td class="date-cell">
+                <div class="date-val">2026-08-04</div>
+                <div class="time-val">00:00:00 UTC</div>
+              </td>
+              <td><span class="badge badge-violet">VOID PILLAR (The Null Space)</span></td>
+              <td>
+                <div class="event-title">Void Signal Telemetry: Sagaing Region (Depayin (Tabayin))</div>
+                <div class="event-summary">Village ambient noise suddenly dropped by 38 dB at dusk. No livestock or human voices heard for 12 minutes. Local defense patrol deployed to inspect perimeter for silent troop advance.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Edge Node VOID-SGG-05</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographic Telemetry)</span></td>
+              <td class="hash-cell"><code>Coord: 22.4512, 95.3421</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="METEOROLOGICAL" data-category="WEATHER_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-07-22</div>
+                <div class="time-val">04:15:00 UTC</div>
+              </td>
+              <td><span class="badge badge-amber">METEOROLOGICAL</span></td>
+              <td>
+                <div class="event-title">Tactical Climate Reading: Hpakant Jade Valley Station (WS-KCH-03)</div>
+                <div class="event-summary">Precipitation: 46.2 mm/h | Wind: 4.8 m/s (Gusts: 7.5 m/s) | Cloud Ceiling: 320.0 m. Notes: Monsoon torrential downpour on unstable mine tailings slope. Severe landslide risk warning issued for mining camp.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Station WS-KCH-03</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Automated Sensor)</span></td>
+              <td class="hash-cell"><code>Pressure: 948.0 hPa</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="METEOROLOGICAL" data-category="WEATHER_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-06-14</div>
+                <div class="time-val">11:20:00 UTC</div>
+              </td>
+              <td><span class="badge badge-amber">METEOROLOGICAL</span></td>
+              <td>
+                <div class="event-title">Tactical Climate Reading: Dawei Coastal Inlet (WS-TNN-06)</div>
+                <div class="event-summary">Precipitation: 12.0 mm/h | Wind: 9.5 m/s (Gusts: 14.0 m/s) | Cloud Ceiling: 600.0 m. Notes: Heavy Andaman coastal downpour. Riverine water level rising rapidly. Monitoring relay by Saw Htoo.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Station WS-TNN-06</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Automated Sensor)</span></td>
+              <td class="hash-cell"><code>Pressure: 1001.0 hPa</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="VOID PILLAR (The Null Space)" data-category="BLACKOUT_ZONE_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-06-12</div>
+                <div class="time-val">00:00:00 UTC</div>
+              </td>
+              <td><span class="badge badge-violet">VOID PILLAR (The Null Space)</span></td>
+              <td>
+                <div class="event-title">Void Signal Telemetry: Chin State (Mindat)</div>
+                <div class="event-summary">Cellular and microwave repeater stations completely disabled by regime forces. Civilians cut off from emergency surgical supplies. Delay-tolerant mesh operating via local couriers.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Edge Node VOID-CHN-02</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographic Telemetry)</span></td>
+              <td class="hash-cell"><code>Coord: 21.3654, 93.9742</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="METEOROLOGICAL" data-category="WEATHER_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-05-18</div>
+                <div class="time-val">12:00:00 UTC</div>
+              </td>
+              <td><span class="badge badge-amber">METEOROLOGICAL</span></td>
+              <td>
+                <div class="event-title">Tactical Climate Reading: Sittwe Coastal Sentinel (WS-RAK-01)</div>
+                <div class="event-summary">Precipitation: 58.0 mm/h | Wind: 21.0 m/s (Gusts: 29.5 m/s) | Cloud Ceiling: 180.0 m. Notes: Severe squalls. Flash flood and storm surge alert in Sittwe lowlands. All air operations grounded.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Station WS-RAK-01</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Automated Sensor)</span></td>
+              <td class="hash-cell"><code>Pressure: 982.1 hPa</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="METEOROLOGICAL" data-category="WEATHER_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-05-18</div>
+                <div class="time-val">06:30:00 UTC</div>
+              </td>
+              <td><span class="badge badge-amber">METEOROLOGICAL</span></td>
+              <td>
+                <div class="event-title">Tactical Climate Reading: Sittwe Coastal Sentinel (WS-RAK-01)</div>
+                <div class="event-summary">Precipitation: 32.5 mm/h | Wind: 17.5 m/s (Gusts: 24.2 m/s) | Cloud Ceiling: 280.0 m. Notes: Bay of Bengal deep depression approaching. Cyclone gale force winds registered by operator Capt. Thein at coastal outpost.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Station WS-RAK-01</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Automated Sensor)</span></td>
+              <td class="hash-cell"><code>Pressure: 988.4 hPa</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="VOID PILLAR (The Null Space)" data-category="ANOMALY_OF_ABSENCE">
+              <td class="date-cell">
+                <div class="date-val">2026-05-18</div>
+                <div class="time-val">05:40:00 UTC</div>
+              </td>
+              <td><span class="badge badge-violet">VOID PILLAR (The Null Space)</span></td>
+              <td>
+                <div class="event-title">Void Signal Telemetry: Sagaing Region (Budalin)</div>
+                <div class="event-summary">SAC battalion frequency completely went silent at 05:40 AM. Silence sustained for 20 minutes with zero background carrier noise. High probability of imminent air strike.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Edge Node VOID-SGG-01</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Cryptographic Telemetry)</span></td>
+              <td class="hash-cell"><code>Coord: 22.3842, 95.148</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="METEOROLOGICAL" data-category="WEATHER_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-04-12</div>
+                <div class="time-val">13:45:00 UTC</div>
+              </td>
+              <td><span class="badge badge-amber">METEOROLOGICAL</span></td>
+              <td>
+                <div class="event-title">Tactical Climate Reading: Monywa Chindwin Outpost (WS-CDZ-02)</div>
+                <div class="event-summary">Precipitation: 0.0 mm/h | Wind: 5.2 m/s (Gusts: 8.1 m/s) | Cloud Ceiling: 3500.0 m. Notes: Extreme pre-monsoon heatwave. Agricultural burning and dust creates dense haze inversion layer. Reported by Ko Zaw Lin.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Station WS-CDZ-02</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Automated Sensor)</span></td>
+              <td class="hash-cell"><code>Pressure: 1004.2 hPa</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="STRATEGIC_TERRITORY">
+              <td class="date-cell">
+                <div class="date-val">2026-03-20</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-blue">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">SAC Command Restructuring & Transition to Coordinated Strike Packages</div>
+                <div class="event-summary">ACLED and defense analysts document a doctrinal shift by the Myanmar Air Force: rather than isolated single-aircraft sorties, the military began utilizing 2 to 5 synchronized jet fighters (primarily K-8 Karakorum and FTC-2000G light combat jets) to conduct sequential bombing passes over designated resistance-administered targets.</div>
+                <div class="event-sources">Sources: <a href='https://acleddata.com/](https://acleddata.com/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="METEOROLOGICAL" data-category="WEATHER_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2026-01-20</div>
+                <div class="time-val">10:00:00 UTC</div>
+              </td>
+              <td><span class="badge badge-amber">METEOROLOGICAL</span></td>
+              <td>
+                <div class="event-title">Tactical Climate Reading: Lashio Tactical Gateway (WS-SHN-05)</div>
+                <div class="event-summary">Precipitation: 0.0 mm/h | Wind: 3.4 m/s (Gusts: 5.1 m/s) | Cloud Ceiling: 2800.0 m. Notes: Clear winter dry season conditions. Ideal tactical FPV and hexacopter surveillance window.</div>
+                <div class="event-sources">Sources: <span class='source-text'>Station WS-SHN-05</span></div>
+              </td>
+              <td><span class="grade-badge">A1 (Automated Sensor)</span></td>
+              <td class="hash-cell"><code>Pressure: 918.5 hPa</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2025-12-15</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">UN OHCHR Declares 2025 Deadliest Year for Aerial Civilian Casualties</div>
+                <div class="event-summary">UN High Commissioner for Human Rights Volker Türk published verification of over 702 civilian deaths in a 6-month evaluation window, with airstrikes accounting for 57% of all fatalities. The report noted a 50%+ year-on-year increase in aerial missions compared to 2024, driven by increased deployment of weaponized reconnaissance drones alongside fixed-wing aircraft.</div>
+                <div class="event-sources">Sources: <a href='https://www.ohchr.org/en/countries/myanmar](https://www.ohchr.org/en/countries/myanmar' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">A1 (Corroborated)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="IOT_TELEMETRY">
+              <td class="date-cell">
+                <div class="date-val">2025-06-18</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-blue">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Humanitarian IoT & Acoustic Early Warning System Precedents in Conflict Zones</div>
+                <div class="event-summary">Academic and defense reviews highlight the successful deployment of acoustic sensor meshes (such as Hala Systems' Sentry in Syria and Ukraine) which achieve 7–10 minute civilian warning windows. Humanitarian engineers propose adapting similar micro-Doppler edge acoustic arrays across resistance-controlled Myanmar via LoRaWAN and Meshtastic RF networks.</div>
+                <div class="event-sources">Sources: <a href='https://halasystems.com/](https://halasystems.com/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a> <a href='https://www.technologyreview.com/](https://www.technologyreview.com/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2024-11-05</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">Fall of Lashio & Escalation of Retaliatory Infrastructure Bombing</div>
+                <div class="event-summary">Following the capture of the Northeastern Military Command in Lashio by resistance forces during Operation 1027 Phase II, junta forces initiated sustained aerial bombardment of civilian neighborhoods, municipal water supplies, and hospitals inside captured urban centers to deny civic governance.</div>
+                <div class="event-sources">Sources: <a href='https://acleddata.com/](https://acleddata.com/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a> <a href='https://www.irrawaddy.com/](https://www.irrawaddy.com/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2023-04-11</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">The Pa Zi Gyi Thermobaric Munition Strike (Kanbalu, Sagaing)</div>
+                <div class="event-summary">In the single deadliest aerial attack of the conflict, a military Su-30/Yak-130 strike delivered thermobaric and cluster munitions onto a gathering in Pa Zi Gyi village, killing 168+ civilians. The incident triggered urgent international calls for aviation fuel embargoes and the deployment of civilian acoustic detection networks.</div>
+                <div class="event-sources">Sources: <a href='https://www.hrw.org/news/2023/05/09/myanmar-military-airstrike-used-thermobaric-weapon](https://www.hrw.org/news/2023/05/09/myanmar-military-airstrike-used-thermobaric-weapon' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a> <a href='https://www.amnesty.org/](https://www.amnesty.org/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+
+            <tr class="event-row" data-domain="OSINT / GEOINT" data-category="KINETIC_STRIKE">
+              <td class="date-cell">
+                <div class="date-val">2022-10-23</div>
+                <div class="time-val">N/A (Field Report)</div>
+              </td>
+              <td><span class="badge badge-red">OSINT / GEOINT</span></td>
+              <td>
+                <div class="event-title">A Nang Pa Anniversary Concert Bombing (Hpakant, Kachin)</div>
+                <div class="event-summary">Three Yak-130 jet fighters dropped multiple unguided high-explosive bombs on a public outdoor gathering, killing over 80 people. This event marked the systematic normalization of using combat jets against dense, non-combatant public crowds in non-regime controlled territory.</div>
+                <div class="event-sources">Sources: <a href='https://www.mmpeacemonitor.org/](https://www.mmpeacemonitor.org/' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a> <a href='https://www.bbc.com/news/world-asia-63372274](https://www.bbc.com/news/world-asia-63372274' target='_blank' rel='noopener noreferrer' class='source-link'>[Link]</a></div>
+              </td>
+              <td><span class="grade-badge">B2 (Field Spotter)</span></td>
+              <td class="hash-cell"><code>AUTH-OPEN-SOURCE</code></td>
+            </tr>
+            
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <p>Parla Autonomous Command Center • Zero-Trust • Offline-First • ACID WAL Merkle Ledger</p>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const table = document.getElementById('eventsTable');
+    const rows = table.getElementsByClassName('event-row');
+
+    searchInput.addEventListener('keyup', function() {
+      const query = searchInput.value.toLowerCase();
+      for (let i = 0; i < rows.length; i++) {
+        const text = rows[i].textContent.toLowerCase();
+        rows[i].style.display = text.includes(query) ? '' : 'none';
+      }
+    });
+  </script>
+</body>
+</html>

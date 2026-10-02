@@ -59,7 +59,7 @@ def main():
     # Initialize all modules
     print("\n[+] Initializing Parla Core & Domain Engines...")
     test_ledger = OfflineLedger(db_path=TEST_DB_PATH)
-    ind_proc = IndustrialProcessor(db_path=TEST_DB_PATH)
+    ind_proc = IndustrialProcessor(db_path=TEST_DB_PATH, ledger=test_ledger)
     osint_proc = OSINTIngestor(kb_dir=os.path.join(WORKSPACE_ROOT, "Project"))
     gateway = RealDataGateway()
     rl_loop = FeedbackLoop(kb_dir=os.path.join(WORKSPACE_ROOT, "Project"))

@@ -7,25 +7,21 @@ and Zero-Trust Merkle ledger sealing.
 """
 
 import os
-<<<<<<< HEAD
 import sys
 import json
 import hashlib
 import hmac
 import logging
 import subprocess
-=======
 import numpy as np
 import sqlite3
-import json
-import hashlib
-import hmac
 import warnings
->>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
 from datetime import datetime
 from typing import Dict, Any, List, Tuple, Optional
 from dataclasses import dataclass
 from pathlib import Path
+
+from parla.core.ledger import OfflineLedger
 
 import numpy as np
 from scipy import stats
@@ -35,20 +31,19 @@ from sklearn.ensemble import IsolationForest
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 
-<<<<<<< HEAD
 # Safe import for EMD (PyEMD with pure numpy/scipy fallback)
-=======
-# Safe Import for EMD (Empirical Mode Decomposition)
->>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
+EMD_AVAILABLE = False
 try:
     from PyEMD import EMD
     EMD_AVAILABLE = True
 except ImportError:
     try:
-        from emd import EMD
-<<<<<<< HEAD
-    except ImportError:
-        class EMD:
+        import importlib
+        _emd_mod = importlib.import_module("emd")
+        EMD = getattr(_emd_mod, "EMD")
+        EMD_AVAILABLE = True
+    except Exception:
+        class EMD:  # type: ignore[no-redef]
             """Lightweight offline fallback sifting if PyEMD is unavailable."""
             def emd(self, signal: np.ndarray, max_imf: int = 3) -> np.ndarray:
                 imfs = []
@@ -65,22 +60,13 @@ except ImportError:
                     if np.std(r) < 1e-4:
                         break
                 return np.array(imfs)
+        EMD_AVAILABLE = True
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 DB_PATH = Path(__file__).resolve().parent.parent.parent / "Data" / "parla_ledger.db"
-=======
-        EMD_AVAILABLE = True
-    except ImportError:
-        EMD = None
-        EMD_AVAILABLE = False
-        warnings.warn("PyEMD/emd not installed. Falling back to basic FFT for signal decomposition.")
-
-# Dynamic DB Path (Uses env var or defaults to current directory)
-DB_PATH = os.environ.get("PARLA_LEDGER_DB", os.path.join(os.getcwd(), "parla_ledger.db"))
->>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
 SECRET_KEY = b"parla_industrial_offline_key_2026"
 
 
@@ -102,8 +88,6 @@ class IndustrialProcessor:
     Upgraded with Isolation Forest for non-linear, multi-dimensional time-series anomalies,
     dual-audit DBSCAN comparison, and Zero-Trust SQLite WAL Merkle sealing.
     """
-<<<<<<< HEAD
-
     FEATURE_NAMES = [
         "vibration_mean",
         "vibration_std",
@@ -117,11 +101,12 @@ class IndustrialProcessor:
         "temperature"
     ]
 
-    def __init__(self, workspace_root: Optional[str] = None, db_path: Optional[str] = None):
+    def __init__(self, workspace_root: Optional[str] = None, db_path: Optional[str] = None, ledger: Optional[OfflineLedger] = None):
         self.workspace_root = os.path.abspath(workspace_root) if workspace_root else str(Path(__file__).resolve().parent.parent.parent)
         self.project_dir = os.path.join(self.workspace_root, "Project")
         self.scripts_dir = os.path.join(self.workspace_root, "scripts")
         self.db_path = Path(db_path) if db_path else DB_PATH
+        self.ledger = ledger or OfflineLedger(db_path=str(self.db_path))
         
         os.makedirs(self.project_dir, exist_ok=True)
         os.makedirs(self.scripts_dir, exist_ok=True)
@@ -145,48 +130,6 @@ class IndustrialProcessor:
         )
         self.iforest_fitted = False
         self.baseline_features: Optional[np.ndarray] = None
-=======
-    
-    def __init__(self, db_path: str = DB_PATH):
-        self.db_path = db_path
-        self.scaler = StandardScaler()
-        self.dbscan = DBSCAN(eps=0.5, min_samples=5)
-        self.baseline_features = None
-        self._init_db()
-        
-    def _init_db(self):
-        """Initialize SQLite database and create table if not exists."""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS ledger_blocks (
-                seq_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                block_hash TEXT NOT NULL,
-                prev_hash TEXT NOT NULL,
-                domain TEXT NOT NULL,
-                timestamp TEXT NOT NULL,
-                nonce TEXT NOT NULL,
-                payload_hash TEXT NOT NULL,
-                payload_json TEXT NOT NULL,
-                signature TEXT NOT NULL,
-                sync_status TEXT NOT NULL
-            )
-        """)
-        conn.commit()
-        conn.close()
-        
-    def decompose_signal(self, vibration_data: np.ndarray) -> Dict[str, np.ndarray]:
-        """
-        Apply Empirical Mode Decomposition to extract intrinsic mode functions.
-        Falls back to basic FFT if EMD is not available.
-        """
-        if EMD_AVAILABLE:
-            emd = EMD()
-            imfs = emd.emd(vibration_data)
-        else:
-            # Fallback: Treat the whole signal as one IMF if EMD is missing
-            imfs = [vibration_data]
->>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
         
         # Bootstrap default baseline if empty
         self._bootstrap_baseline()
@@ -427,8 +370,6 @@ class IndustrialProcessor:
 
     def _append_to_ledger(self, directive: MaintenanceDirective, raw_features: np.ndarray) -> str:
         """Appends maintenance directive and isolation audit to the Zero-Trust Merkle ledger."""
-        import sqlite3
-
         payload = {
             "machine_id": directive.machine_id,
             "anomaly_score": directive.anomaly_score,
@@ -441,51 +382,14 @@ class IndustrialProcessor:
             "feature_vector": [round(float(x), 4) for x in raw_features]
         }
 
-        payload_json = json.dumps(payload, sort_keys=True)
-        payload_hash = hashlib.sha256(payload_json.encode("utf-8")).hexdigest()
-        signature = hmac.new(SECRET_KEY, payload_json.encode("utf-8"), hashlib.sha256).hexdigest()
-
-        conn = sqlite3.connect(str(self.db_path), timeout=10.0)
-        cursor = conn.cursor()
-
-        # Ensure ledger table exists with correct schema
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS ledger_blocks (
-                seq_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                block_hash TEXT UNIQUE NOT NULL,
-                prev_hash TEXT NOT NULL,
-                domain TEXT NOT NULL,
-                timestamp TEXT NOT NULL,
-                nonce TEXT NOT NULL,
-                payload_hash TEXT NOT NULL,
-                payload_json TEXT NOT NULL,
-                signature TEXT NOT NULL,
-                sync_status TEXT DEFAULT 'SYNCED'
-            )
-        """)
-
-        cursor.execute("SELECT block_hash FROM ledger_blocks ORDER BY seq_id DESC LIMIT 1")
-        row = cursor.fetchone()
-        prev_hash = row[0] if row else "GENESIS_BLOCK_00000000000000000000000000000000"
-
-        timestamp = datetime.now().isoformat()
-        nonce = hashlib.sha256(f"{prev_hash}{timestamp}".encode("utf-8")).hexdigest()[:16]
-        block_data = f"{prev_hash}{payload_hash}{timestamp}{nonce}"
-        block_hash = hashlib.sha256(block_data.encode("utf-8")).hexdigest()
-
-        cursor.execute("""
-            INSERT INTO ledger_blocks 
-            (block_hash, prev_hash, domain, timestamp, nonce, payload_hash, payload_json, signature, sync_status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            block_hash, prev_hash, "industrial", timestamp, nonce,
-            payload_hash, payload_json, signature, "SYNCED"
-        ))
-
-        conn.commit()
-        conn.close()
-
-        return block_hash
+        success, reason, block = self.ledger.record_event(
+            domain="industrial",
+            payload=payload,
+            source_id=directive.machine_id
+        )
+        if success and block:
+            return block["block_hash"]
+        raise RuntimeError(f"Failed to record industrial event to ledger: {reason}")
 
     # =====================================================================
     # MAIN INGRESS PIPELINE
@@ -662,10 +566,5 @@ if __name__ == "__main__":
     print(f"  Algorithm Log : {r2['directive']['algorithm_audit']}")
     print(f"  Ledger Hash   : {r2['ledger_hash'][:24]}...")
     print("\n" + "=" * 70)
-<<<<<<< HEAD
     print("INDUSTRIAL PROCESSOR UPGRADE VALIDATION COMPLETE")
     print("=" * 70)
-=======
-    print("✓ INDUSTRIAL PROCESSOR SELF-TEST COMPLETE")
-    print("=" * 70)
->>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a

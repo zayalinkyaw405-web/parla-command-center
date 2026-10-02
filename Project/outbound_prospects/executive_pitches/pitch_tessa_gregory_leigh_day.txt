@@ -1,0 +1,20 @@
+To: Tessa Gregory (Partner) (Leigh Day Solicitors (London))
+Subject: Forensic ICC/IIMM Admissible Evidence & Command Chain Dossiers
+
+Dear Ms. Tessa Gregory,
+
+I am contacting you from Parla Autonomous Risk Telemetry regarding our forensic command responsibility database and biometric evidence pipeline for Southeast Asian conflict human rights litigation.
+
+Our autonomous nodes maintain court-admissible dossiers certified with SHA-256 Merkle proofs and 128-d face recognition embeddings for high-command targets (Min Aung Hlaing / Soe Win / Tun Aung).
+
+You can review our verified telemetry feed and download certified dossiers:
+
+Live Intelligence Portal: https://fog-coastal-talk-duck.trycloudflare.com
+API Feed Docs: https://fog-coastal-talk-duck.trycloudflare.com/docs
+Solana Receptor: 89HXnLfaetwtJooVrxJxMuVyKmpKGfZ5Vm7CpiVW4Jos
+Polygon Receptor: 0x87CEFE4B75EB20F8E0A493A5D2EA3946AF5F985B
+
+Sincerely,
+
+Parla Autonomous Intelligence Operations
+Human Rights Litigation & Evidence Unit

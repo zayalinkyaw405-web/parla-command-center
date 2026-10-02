@@ -1,0 +1,25 @@
+Subject: Urgent Sanctions & Supply-Chain Due-Diligence Alert: Cross-Border Logistics & Infrastructure (Bangkok / Mae Sot / Myawaddy Border Trade)
+
+Dear Compliance Director / Risk Counsel,
+
+I am writing from Parla Autonomous Risk Telemetry to share an urgent preliminary due-diligence alert regarding active sanctions enforcement and supply-chain exposure across Southeast Asian trade corridors.
+
+Our monitoring nodes have documented critical legal and logistics risks directly relevant to cross-border logistics & infrastructure:
+- Problem: Customs blackouts, EAO-controlled toll gates, and supply chain disruptions along the Asian Highway (AH1).
+- Primary Risk Anchor: IND-SAC-002 (Soe Win / Ground Forces Logistics & Clearance)
+- Regulatory Exposure: OFAC / EU Council secondary sanctions and maritime insurance withdrawal.
+
+We have generated a complimentary 1-page Executive Risk Brief for your review (attached below).
+
+If your team requires instant, court-admissible counterparty verification or certified due-diligence dossiers with cryptographic Merkle proof, you can query our self-service portal or connect via our direct compliance API:
+
+Portal Access: https://fog-coastal-talk-duck.trycloudflare.com (or via secure Cloudflare Tunnel)
+Single Certified Dossier: $75 USD (Corporate Card / Instant USDT/USDC settlement)
+Developer API Access: $199/month (Sub-second sanctions & PEP screening)
+
+Please let me know if you would like us to run a complimentary preliminary screening on any specific vessel, corporate entity, or border corridor.
+
+Sincerely,
+
+Parla Autonomous Intelligence Operations
+Regional Risk & Due-Diligence Unit

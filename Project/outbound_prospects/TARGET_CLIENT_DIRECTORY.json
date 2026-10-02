@@ -1,0 +1,180 @@
+[
+  {
+    "sector_id": "SEC-01",
+    "sector_name": "Maritime Bunkering & Vessel Fleet Operators",
+    "geography": "Singapore / Malacca Strait / Hong Kong / Dubai",
+    "target_roles": [
+      "Head of Maritime Sanctions Compliance",
+      "Bunker Risk Manager",
+      "Legal & Claims Director"
+    ],
+    "primary_trigger": "Dark fleet STS transfers, jet fuel supply chain exposure under EU/OFAC maritime advisories.",
+    "clients": [
+      {
+        "company": "Singamas Petroleum Trading Pte Ltd",
+        "country": "Singapore",
+        "contact_target": "Compliance Director",
+        "channel": "LinkedIn / Corporate Email"
+      },
+      {
+        "company": "Chemoil International Pte Ltd",
+        "country": "Singapore",
+        "contact_target": "Head of Maritime Risk",
+        "channel": "LinkedIn / Corporate Email"
+      },
+      {
+        "company": "Fratelli Cosulich Unipessodal",
+        "country": "Singapore",
+        "contact_target": "Bunker Trading Risk Officer",
+        "channel": "LinkedIn / Corporate Email"
+      },
+      {
+        "company": "Equatorial Marine Fuel Management",
+        "country": "Singapore",
+        "contact_target": "Legal & Regulatory Counsel",
+        "channel": "Corporate Email"
+      },
+      {
+        "company": "BMT Asia Pacific",
+        "country": "Singapore",
+        "contact_target": "Senior Maritime Risk Analyst",
+        "channel": "LinkedIn"
+      },
+      {
+        "company": "Torm A/S Singapore Branch",
+        "country": "Singapore / Denmark",
+        "contact_target": "Vessel Sanctions Officer",
+        "channel": "Corporate Email"
+      },
+      {
+        "company": "Bunker Holding A/S",
+        "country": "Denmark / Global",
+        "contact_target": "Group Chief Compliance Officer",
+        "channel": "LinkedIn / Email"
+      }
+    ]
+  },
+  {
+    "sector_id": "SEC-02",
+    "sector_name": "Cross-Border Logistics & Industrial Conglomerates",
+    "geography": "Thailand / Myanmar Corridors (Mae Sot, Ranong, Bangkok)",
+    "target_roles": [
+      "Supply Chain ESG Auditor",
+      "Trade Compliance Lead",
+      "Customs & Logistics Director"
+    ],
+    "primary_trigger": "Dual-use aviation equipment, timber/mineral revenue diversion, and SAC enterprise ownership checks.",
+    "clients": [
+      {
+        "company": "Kerry Logistics (Thailand) PCL",
+        "country": "Thailand",
+        "contact_target": "Cross-Border Compliance Manager",
+        "channel": "Corporate Email"
+      },
+      {
+        "company": "SCG Logistics Management Co., Ltd.",
+        "country": "Thailand",
+        "contact_target": "Supply Chain Risk Officer",
+        "channel": "LinkedIn"
+      },
+      {
+        "company": "WHA Corporation PCL",
+        "country": "Thailand",
+        "contact_target": "Industrial Estate ESG Auditor",
+        "channel": "Corporate Email"
+      },
+      {
+        "company": "Nippon Express (Thailand) Co., Ltd.",
+        "country": "Thailand / Japan",
+        "contact_target": "Trade Compliance Lead",
+        "channel": "LinkedIn"
+      },
+      {
+        "company": "JWD InfoLogistics PCL",
+        "country": "Thailand",
+        "contact_target": "Regional Trade Risk Lead",
+        "channel": "Corporate Email"
+      }
+    ]
+  },
+  {
+    "sector_id": "SEC-03",
+    "sector_name": "International Human Rights Law & ESG Chambers",
+    "geography": "London / Geneva / The Hague / Washington DC",
+    "target_roles": [
+      "Partner - International Sanctions",
+      "Public International Law Counsel",
+      "Senior ESG Investigator"
+    ],
+    "primary_trigger": "Requirement for SHA-256 Merkle notarized evidence, biometric verification, and ICC/IIMM chain of custody.",
+    "clients": [
+      {
+        "company": "Leigh Day Solicitors",
+        "country": "UK",
+        "contact_target": "Partner - International Claims",
+        "channel": "Email / Direct Mail"
+      },
+      {
+        "company": "Matrix Chambers",
+        "country": "UK",
+        "contact_target": "Public International Law Counsel",
+        "channel": "LinkedIn / Chambers Directory"
+      },
+      {
+        "company": "Global Witness",
+        "country": "UK / Switzerland",
+        "contact_target": "Senior Conflict Resources Investigator",
+        "channel": "Encrypted Email / Signal"
+      },
+      {
+        "company": "Doughty Street Chambers",
+        "country": "UK",
+        "contact_target": "Sanctions & Accountability Specialist",
+        "channel": "LinkedIn / Chambers Directory"
+      },
+      {
+        "company": "Dechert LLP (ESG & Sanctions Unit)",
+        "country": "UK / US",
+        "contact_target": "International Trade Partner",
+        "channel": "Corporate Email"
+      }
+    ]
+  },
+  {
+    "sector_id": "SEC-04",
+    "sector_name": "Geopolitical Risk & Sanctions Consultancies",
+    "geography": "Global (London, Washington DC, Singapore)",
+    "target_roles": [
+      "Senior Director - APAC Intelligence",
+      "Sanctions Advisory Lead",
+      "Corporate Intelligence Partner"
+    ],
+    "primary_trigger": "Sub-second API access ($199/mo) for automated PEP, military command structure, and entity screening.",
+    "clients": [
+      {
+        "company": "Control Risks Group",
+        "country": "Global / Singapore",
+        "contact_target": "Head of APAC Due Diligence",
+        "channel": "LinkedIn"
+      },
+      {
+        "company": "The Risk Advisory Group",
+        "country": "UK / Singapore",
+        "contact_target": "Sanctions Practice Lead",
+        "channel": "Corporate Email"
+      },
+      {
+        "company": "Eurasia Group",
+        "country": "US / Global",
+        "contact_target": "Southeast Asia Director",
+        "channel": "LinkedIn / Corporate Email"
+      },
+      {
+        "company": "Kroll (Compliance Risk Unit)",
+        "country": "Global / Singapore",
+        "contact_target": "Managing Director - Business Intelligence",
+        "channel": "LinkedIn / Corporate Email"
+      }
+    ]
+  }
+]

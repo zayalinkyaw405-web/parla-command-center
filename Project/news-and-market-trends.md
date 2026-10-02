@@ -75,46 +75,11 @@ This document tracks verifiable empirical developments, policy shifts, technolog
 - **Integrity Hash**: `f62bcf066595756c`
 
 
-## OSINT Feed Ingestion
-- **Date**: 2026-10-01
-- **Category**: KINETIC_CONFLICT
-- **Topic**: Myanmar Peace Monitor Intelligence Update
-- **Summary**: At 08:00, artillery shelling was reported near the village of Hpakant. Local journalist [REDACTED_NAME] ([REDACTED], +95 9 123 456 789) reported civilian displacements near coordinates [REDACTED]. Humanitarian aid is blocked.
-- **Source Links**: https://example.com/hpakant-report
-- **Integrity Hash**: `d2ff36bb42e220a9`
-
-
-## OSINT Feed Ingestion
-- **Date**: 2026-10-01
-- **Category**: KINETIC_CONFLICT
-- **Topic**: Myanmar Peace Monitor Intelligence Update
-- **Summary**: At 08:00, artillery shelling was reported near the village of Hpakant. Local journalist [REDACTED_NAME] ([REDACTED], +95 9 123 456 789) reported civilian displacements near coordinates [REDACTED]. Humanitarian aid is blocked.
-- **Source Links**: https://example.com/hpakant-report
-- **Integrity Hash**: `9bfdfe2c3c7ed673`
-
 ## Strategic Intelligence Briefs
 - **Date**: 2026-10-02
 - **Topic**: Q4 2026 Myanmar EAO Territorial Dynamics & Governance
 - **Summary**: The Myanmar military junta's administrative reach has contracted to approximately 42% of national territory as ethnic armed organizations consolidate definitive control over strategic frontiers, led by the Arakan Army's 92.6% dominance of Rakhine State. In response, the regime has intensified aerial bombardments across the contested central dry zone while northern trade corridors experience realignment under Chinese mediation.
 - **Source Links**: https://acleddata.com, https://ispmyanmar.com, https://mmpeacemonitor.org
-
-
-## OSINT Feed Ingestion
-- **Date**: 2026-10-01
-- **Category**: KINETIC_CONFLICT
-- **Topic**: Myanmar Peace Monitor Intelligence Update
-- **Summary**: At 08:00, artillery shelling was reported near the village of Hpakant. Local journalist [REDACTED_NAME] ([REDACTED], +95 9 123 456 789) reported civilian displacements near coordinates [REDACTED]. Humanitarian aid is blocked.
-- **Source Links**: https://example.com/hpakant-report
-- **Integrity Hash**: `cb3f6605a960a2c1`
-
-
-## OSINT Feed Ingestion
-- **Date**: 2026-10-01
-- **Category**: KINETIC_CONFLICT
-- **Topic**: Myanmar Peace Monitor Intelligence Update
-- **Summary**: At 08:00, artillery shelling was reported near the village of Hpakant. Local journalist [REDACTED_NAME] ([REDACTED], +95 9 123 456 789) reported civilian displacements near coordinates [REDACTED]. Humanitarian aid is blocked.
-- **Source Links**: https://example.com/hpakant-report
-- **Integrity Hash**: `2608c163718cc624`
 
 
 ## OSINT Feed Ingestion
@@ -125,6 +90,14 @@ This document tracks verifiable empirical developments, policy shifts, technolog
 - **Source Links**: https://example.com/hpakant-report
 - **Integrity Hash**: `c26c1bb6ff956526`
 
+## OSINT Feed Ingestion
+- **Date**: 2026-10-02
+- **Category**: KINETIC_CONFLICT
+- **Topic**: Myanmar Peace Monitor Intelligence Update
+- **Summary**: At 08:00, artillery shelling was reported near Hpakant. Local spotter [REDACTED_NAME] ([REDACTED], [REDACTED]) reported civilian displacements near [REDACTED].
+- **Source Links**: https://example.com/hpakant-report
+- **Integrity Hash**: `40008d784ab991e0`
+
 
 ## OSINT Feed Ingestion
 - **Date**: 2026-10-02
@@ -132,5 +105,14 @@ This document tracks verifiable empirical developments, policy shifts, technolog
 - **Topic**: Myanmar Peace Monitor Intelligence Update
 - **Summary**: At 08:00, artillery shelling was reported near Hpakant. Local spotter [REDACTED_NAME] ([REDACTED], [REDACTED]) reported civilian displacements near [REDACTED].
 - **Source Links**: https://example.com/hpakant-report
-- **Integrity Hash**: `b73e521e3622fef0`
+- **Integrity Hash**: `f23a5e3d2633be49`
+
+
+## OSINT Feed Ingestion
+- **Date**: 2026-10-02
+- **Category**: KINETIC_CONFLICT
+- **Topic**: Myanmar Peace Monitor Intelligence Update
+- **Summary**: At 08:00, artillery shelling was reported near Hpakant. Local spotter [REDACTED_NAME] ([REDACTED], [REDACTED]) reported civilian displacements near [REDACTED].
+- **Source Links**: https://example.com/hpakant-report
+- **Integrity Hash**: `91da5778b510d911`
 

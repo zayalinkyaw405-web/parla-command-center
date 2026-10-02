@@ -8,6 +8,8 @@ from dataclasses import dataclass, field, asdict
 import typing
 from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
+import json
+from pathlib import Path
 
 
 # ============================================================
@@ -3909,6 +3911,94 @@ class VoidPillarEngine:
 
 
 # ============================================================
+# 4.9. INTERNATIONAL ACCOUNTABILITY & COMMAND ROSTER
+# ============================================================
+
+@dataclass
+class AccountabilityIndividual:
+    individual_id: str
+    name: str
+    rank: str
+    operational_role: str
+    command_authority: str
+    documented_cases: List[str]
+    institutional_citations: List[str]
+    evidentiary_grade: str
+    echelon_id: str
+    echelon_title: str
+
+
+class InternationalAccountabilityKnowledgeBase:
+    """
+    Structured domain knowledge base of senior military commanders and echelons
+    documented for war crimes, crimes against humanity, and command responsibility
+    by the UN FFM, ICC, IIMM, and international bodies.
+    """
+    def __init__(self, json_path: Optional[Path] = None):
+        self.individuals: Dict[str, AccountabilityIndividual] = {}
+        self.echelons: Dict[str, Dict[str, Any]] = {}
+        self._load_roster(json_path)
+
+    def _load_roster(self, json_path: Optional[Path] = None):
+        target = json_path or (Path(__file__).resolve().parent.parent.parent / "Data" / "international_accountability_roster_2026.json")
+        if not target.exists():
+            return
+        try:
+            with open(target, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            for ech in data.get("command_echelons", []):
+                e_id = ech.get("echelon_id", "")
+                self.echelons[e_id] = {
+                    "echelon_id": e_id,
+                    "echelon_title": ech.get("echelon_title", ""),
+                    "legal_basis": ech.get("legal_basis", "")
+                }
+                for ind in ech.get("individuals", []):
+                    entity = AccountabilityIndividual(
+                        individual_id=ind["individual_id"],
+                        name=ind["name"],
+                        rank=ind["rank"],
+                        operational_role=ind["operational_role"],
+                        command_authority=ind["command_authority"],
+                        documented_cases=ind.get("documented_cases", []),
+                        institutional_citations=ind.get("institutional_citations", []),
+                        evidentiary_grade=ind.get("evidentiary_grade", "A1"),
+                        echelon_id=e_id,
+                        echelon_title=ech.get("echelon_title", "")
+                    )
+                    self.individuals[entity.individual_id] = entity
+                    self.individuals[entity.name.upper()] = entity
+        except Exception:
+            pass
+
+    def get_individual(self, query: str) -> Optional[AccountabilityIndividual]:
+        if not query:
+            return None
+        q = query.strip().upper()
+        if q in self.individuals:
+            return self.individuals[q]
+        # Check full name, id, or rank+name containment
+        for v in self.list_all():
+            name_u = v.name.upper()
+            rank_u = v.rank.upper()
+            full_u = f"{rank_u} {name_u}"
+            if q == name_u or name_u in q or q in name_u or q == v.individual_id.upper() or v.individual_id.upper() in q:
+                return v
+            if q == full_u or full_u in q or q in full_u:
+                return v
+        return None
+
+    def list_all(self) -> List[AccountabilityIndividual]:
+        seen = set()
+        unique = []
+        for ind in self.individuals.values():
+            if ind.individual_id not in seen:
+                seen.add(ind.individual_id)
+                unique.append(ind)
+        return unique
+
+
+# ============================================================
 # 5. UNIFIED KNOWLEDGE BASE
 # ============================================================
 
@@ -3925,6 +4015,7 @@ class ParlaKnowledgeBase:
         self.weather = WeatherKnowledgeBase()
         self.religion = ReligiousDynamicsKnowledgeBase()
         self.void = VoidPillarEngine()
+        self.accountability = InternationalAccountabilityKnowledgeBase()
     
     def analyze_acoustic(self, acoustic_db: float, doppler_hz: float, freq_hz: Optional[float] = None) -> Dict:
         matches = self.acoustic.identify_threat(acoustic_db, doppler_hz, freq_hz)
@@ -4437,6 +4528,27 @@ class ParlaKnowledgeBase:
                 "dtn_mesh_buffering": "Asynchronous delay-tolerant store-and-forward when internet backbones are severed.",
                 "anti_forensic_zeroization": "Millisecond-scale in-memory key shredding and hardware bricking upon enclosure tampering."
             }
+        }
+
+    def get_accountability_intel(self, query: Optional[str] = None) -> Dict[str, Any]:
+        """Queries international accountability rosters, command echelons, and legal citations."""
+        if not query:
+            return {
+                "type": "ACCOUNTABILITY_ROSTER_SUMMARY",
+                "total_commanders_tracked": len(self.accountability.list_all()),
+                "command_echelons": list(self.accountability.echelons.values()),
+                "individuals": [asdict(i) for i in self.accountability.list_all()]
+            }
+        ind = self.accountability.get_individual(query)
+        if ind:
+            return {
+                "type": "ACCOUNTABILITY_INDIVIDUAL_DOSSIER",
+                "data": asdict(ind)
+            }
+        return {
+            "type": "ACCOUNTABILITY_NOT_FOUND",
+            "query": query,
+            "data": None
         }
 
 
