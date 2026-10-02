@@ -331,9 +331,9 @@ def main():
 
     print("\n[3] Testing Direct Ingress Malformed Payload Quarantine...")
     # Injecting invalid non-dictionary payload directly to test quarantine isolation
-    success, reason, block = test_ledger.append_event(
-        payload="MALFORMED_NON_DICT_STRING",  # type: ignore
+    success, reason, block = test_ledger.record_event(
         domain="INTRUSION_DETECTION",
+        payload="MALFORMED_NON_DICT_STRING",  # type: ignore
         source_id="ATTACK_SIMULATOR"
     )
     print(f"    Append Success: {success}")

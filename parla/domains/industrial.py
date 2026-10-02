@@ -7,12 +7,21 @@ and Zero-Trust Merkle ledger sealing.
 """
 
 import os
+<<<<<<< HEAD
 import sys
 import json
 import hashlib
 import hmac
 import logging
 import subprocess
+=======
+import numpy as np
+import sqlite3
+import json
+import hashlib
+import hmac
+import warnings
+>>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
 from datetime import datetime
 from typing import Dict, Any, List, Tuple, Optional
 from dataclasses import dataclass
@@ -26,12 +35,18 @@ from sklearn.ensemble import IsolationForest
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 
+<<<<<<< HEAD
 # Safe import for EMD (PyEMD with pure numpy/scipy fallback)
+=======
+# Safe Import for EMD (Empirical Mode Decomposition)
+>>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
 try:
     from PyEMD import EMD
+    EMD_AVAILABLE = True
 except ImportError:
     try:
         from emd import EMD
+<<<<<<< HEAD
     except ImportError:
         class EMD:
             """Lightweight offline fallback sifting if PyEMD is unavailable."""
@@ -56,6 +71,16 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 DB_PATH = Path(__file__).resolve().parent.parent.parent / "Data" / "parla_ledger.db"
+=======
+        EMD_AVAILABLE = True
+    except ImportError:
+        EMD = None
+        EMD_AVAILABLE = False
+        warnings.warn("PyEMD/emd not installed. Falling back to basic FFT for signal decomposition.")
+
+# Dynamic DB Path (Uses env var or defaults to current directory)
+DB_PATH = os.environ.get("PARLA_LEDGER_DB", os.path.join(os.getcwd(), "parla_ledger.db"))
+>>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
 SECRET_KEY = b"parla_industrial_offline_key_2026"
 
 
@@ -77,6 +102,7 @@ class IndustrialProcessor:
     Upgraded with Isolation Forest for non-linear, multi-dimensional time-series anomalies,
     dual-audit DBSCAN comparison, and Zero-Trust SQLite WAL Merkle sealing.
     """
+<<<<<<< HEAD
 
     FEATURE_NAMES = [
         "vibration_mean",
@@ -119,6 +145,48 @@ class IndustrialProcessor:
         )
         self.iforest_fitted = False
         self.baseline_features: Optional[np.ndarray] = None
+=======
+    
+    def __init__(self, db_path: str = DB_PATH):
+        self.db_path = db_path
+        self.scaler = StandardScaler()
+        self.dbscan = DBSCAN(eps=0.5, min_samples=5)
+        self.baseline_features = None
+        self._init_db()
+        
+    def _init_db(self):
+        """Initialize SQLite database and create table if not exists."""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS ledger_blocks (
+                seq_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                block_hash TEXT NOT NULL,
+                prev_hash TEXT NOT NULL,
+                domain TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                nonce TEXT NOT NULL,
+                payload_hash TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                signature TEXT NOT NULL,
+                sync_status TEXT NOT NULL
+            )
+        """)
+        conn.commit()
+        conn.close()
+        
+    def decompose_signal(self, vibration_data: np.ndarray) -> Dict[str, np.ndarray]:
+        """
+        Apply Empirical Mode Decomposition to extract intrinsic mode functions.
+        Falls back to basic FFT if EMD is not available.
+        """
+        if EMD_AVAILABLE:
+            emd = EMD()
+            imfs = emd.emd(vibration_data)
+        else:
+            # Fallback: Treat the whole signal as one IMF if EMD is missing
+            imfs = [vibration_data]
+>>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
         
         # Bootstrap default baseline if empty
         self._bootstrap_baseline()
@@ -594,5 +662,10 @@ if __name__ == "__main__":
     print(f"  Algorithm Log : {r2['directive']['algorithm_audit']}")
     print(f"  Ledger Hash   : {r2['ledger_hash'][:24]}...")
     print("\n" + "=" * 70)
+<<<<<<< HEAD
     print("INDUSTRIAL PROCESSOR UPGRADE VALIDATION COMPLETE")
     print("=" * 70)
+=======
+    print("✓ INDUSTRIAL PROCESSOR SELF-TEST COMPLETE")
+    print("=" * 70)
+>>>>>>> 163f05277a3d28ed59da59cad1eb76a89708ca9a
